@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>EnhancedQQ · B 站分享预览</title>
+<style>body{font:16px sans-serif;padding:24px}.message{margin:16px;padding:16px;background:#eee;border-radius:16px;width:260px}.ark-item-container{padding:12px;background:#fff;cursor:pointer}output{display:block;white-space:pre-wrap}</style></head>
+<body><button id="enabled">切换功能</button><output id="state"></output>
+<div class="message" id="bili"><div class="ark-msg-content-container"><div class="ark-item-container">哔哩哔哩 · 视频分享</div></div></div>
+<div class="message" id="other"><div class="ark-msg-content-container"><div class="ark-item-container">其他小程序</div></div></div>
+<output id="result"></output>
+<script type="module">
+  import { installBiliExternalHandler } from "../src/renderer/bili-external.js";
+  const makeRecord = url => ({elements:[{arkElement:{bytesData:JSON.stringify({app:"com.tencent.miniapp_01",meta:{detail_1:{qqdocurl:url}}})}}]});
+  document.querySelector("#bili").__VUE__ = [{props:{msgRecord:makeRecord("https://b23.tv/AbC123")}}];
+  document.querySelector("#other").__VUE__ = [{props:{msgRecord:makeRecord("https://example.test/other")}}];
+  let enabled = true, opened = 0, native = 0;
+  const render = () => { document.querySelector("#state").textContent = `功能：${enabled ? "开启" : "关闭"}`; document.querySelector("#result").textContent = `浏览器打开：${opened}；原生点击：${native}`; };
+  installBiliExternalHandler(document, {openBiliVideo:async () => {opened++;render();}}, () => enabled);
+  document.querySelectorAll(".ark-item-container").forEach(card => card.addEventListener("click", () => {native++;render();}));
+  document.querySelector("#enabled").onclick = () => {enabled = !enabled;render();};
+  render();
+</script></body></html>

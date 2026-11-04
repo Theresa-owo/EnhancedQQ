@@ -146,3 +146,14 @@ body[data-enhancedqq-telegram="on"][data-enhancedqq-nickname="inside"] #app#app 
   border-radius: 10px 10px 0 0 !important;
   background: var(--tg-message-others-bg-color) !important;
 }
+
+/* QQ may teleport these surfaces outside #app. Keep the menu itself unclipped. */
+body[data-enhancedqq-telegram="on"] #app#app .aio .group-panel .group-chat main.chat-msg-area .menu-stickers-panel,
+body[data-enhancedqq-telegram="on"] .menu-stickers-wrapper,
+body[data-enhancedqq-telegram="on"] .menu-stickers-wrapper .menu-stickers,
+body[data-enhancedqq-telegram="on"] .menu-stickers-panel {
+  border-radius: var(--ll-radius, 14px) !important;
+}
+body[data-enhancedqq-telegram="on"] .menu-stickers-wrapper .menu-stickers:not(:has(.menu-stickers-panel)) {
+  overflow: hidden !important;
+}

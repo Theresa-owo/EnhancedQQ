@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>EnhancedQQ · 菜单圆角预览</title>
+<style>
+body { --ll-radius: 14px; margin: 48px; background:#fff; font:16px "Microsoft YaHei UI",sans-serif; }
+.q-context-menu { position:relative; width:135px; margin-top:65px; padding:6px; border-radius:14px; background:#f4e9e9; box-shadow:0 6px 26px #0003; }
+.menu-stickers-wrapper { position:absolute; left:0; top:-48px; width:304px; }
+.menu-stickers { background:#f2e4e4; box-shadow:0 4px 16px #0002; }
+.menu-stickers-panel { display:flex; height:48px; align-items:center; justify-content:space-around; background:#f2e4e4; }
+.q-context-menu-item { padding:8px 12px; border-radius:8px; }
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .menu-stickers-panel { border-radius:6px !important; }
+</style><link rel="stylesheet" href="../src/renderer/telegram-bubbles.compat.css"></head>
+<body data-enhancedqq-telegram="on"><div id="app"><div class="aio"><div class="group-panel"><div class="group-chat"><main class="chat-msg-area">
+<div class="q-context-menu aio-right-click-menu"><div class="menu-stickers-wrapper"><div class="menu-stickers"><div class="menu-stickers-panel"><span>👍</span><span>👌</span><span>❤️</span><span>😺</span><span>😠</span><span>🤗</span><span>☻</span></div></div></div>
+<div class="q-context-menu-item">复制</div><div class="q-context-menu-item">收藏</div><div class="q-context-menu-item">转发</div><div class="q-context-menu-item">多选</div><div class="q-context-menu-item">删除</div></div>
+</main></div></div></div></div></body></html>

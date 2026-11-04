@@ -28,11 +28,19 @@
   <div class="preview-tools"><button type="button" id="preview-theme">切换预览明暗</button></div>
   <main class="frame" id="preview"></main>
   <script type="module">
-    window.LiteLoader = { versions: { liteloader: "1.4.1", qqnt: "9.9.37-54395" }, plugins: { enhancedqq: { manifest: { version: "0.9.4" } } }, api: { config: {
+    window.LiteLoader = { versions: { liteloader: "1.4.1", qqnt: "9.9.37-54395" }, plugins: { enhancedqq: { manifest: { version: "0.9.6" } } }, api: { config: {
       async get() { return JSON.parse(localStorage.getItem("enhancedqq-preview-config") || "{}"); },
       async set(_slug, value) { localStorage.setItem("enhancedqq-preview-config", JSON.stringify(value)); return true; }
     } } };
-    window.EnhancedQQ = { onState() {}, configChanged() {}, synthesizeSpeech: async () => new Uint8Array(), sendTtsVoice: async () => "preview" };
+    let previewUpdate = { status: "idle", autoCheck: true, current: "0.9.6" };
+    const listeners = [];
+    window.EnhancedQQ = { onState(fn) { listeners.push(fn); }, getState: async () => ({ pluginUpdate: previewUpdate }), configChanged() {},
+      checkPluginUpdate: async () => { previewUpdate = { ...previewUpdate, status: "available", latest: "0.9.7", installable: true }; listeners.forEach(fn => fn({ pluginUpdate: previewUpdate })); return previewUpdate; },
+      installPluginUpdate: async () => { previewUpdate = { ...previewUpdate, status: "installed", message: "更新已安装，重启所有运行中的 QQ 后生效。" }; listeners.forEach(fn => fn({ pluginUpdate: previewUpdate })); return previewUpdate; },
+      openPluginRelease: async () => {}, getReactionCatalog: async () => [{id:"128522",label:"微笑",symbol:"😊"},{id:"129418",label:"狐狸",symbol:"🦊"}],
+      getUnicodeEmojiCatalog:async () => (await fetch("../src/vendor/unicode-emoji/emoji.json")).json(),
+      getUnicodeEmojiFont:async () => new Uint8Array(await (await fetch("../src/vendor/unicode-emoji/NotoColorEmoji.ttf")).arrayBuffer()),
+      sendReaction: async () => {}, synthesizeSpeech: async () => new Uint8Array(), sendTtsVoice: async () => "preview" };
     const { onSettingWindowCreated } = await import("../src/renderer/index.js");
     document.querySelector("#preview-theme").addEventListener("click", () => {
       document.body.dataset.light = String(document.body.dataset.light !== "true");

@@ -182,6 +182,25 @@ if (!exists) {
     contextBridge.exposeInMainWorld("EnhancedQQ", {
         getState: () => ipcRenderer.invoke("EnhancedQQ.getState"),
         getTelegramAssets: () => ipcRenderer.invoke("EnhancedQQ.getTelegramAssets"),
+        openBiliVideo: url => ipcRenderer.invoke("EnhancedQQ.openBiliVideo", url),
+        checkPluginUpdate: () => ipcRenderer.invoke("EnhancedQQ.checkPluginUpdate"),
+        installPluginUpdate: () => ipcRenderer.invoke("EnhancedQQ.installPluginUpdate"),
+        openPluginRelease: () => ipcRenderer.invoke("EnhancedQQ.openPluginRelease"),
+        getReactionCatalog: () => ipcRenderer.invoke("EnhancedQQ.getReactionCatalog"),
+        getUnicodeEmojiCatalog: () => ipcRenderer.invoke("EnhancedQQ.getUnicodeEmojiCatalog"),
+        getUnicodeEmojiFont: () => ipcRenderer.invoke("EnhancedQQ.getUnicodeEmojiFont"),
+        getGroupCapabilities: (group, member) => ipcRenderer.invoke("EnhancedQQ.groupCapabilities", group, member),
+        performGroupAction: (action, group, member, value) => ipcRenderer.invoke("EnhancedQQ.groupAction", action, group, member, value),
+        sendReaction: async value => {
+            const chatType = Number(value?.peer?.chatType), peerUid = String(value?.peer?.peerUid || ""), msgSeq = String(value?.msgSeq || ""), emojiId = String(value?.emojiId || "");
+            const oneEmoji = [...emojiId].length <= 16 && /[\p{Extended_Pictographic}\p{Regional_Indicator}\u20E3]/u.test(emojiId) &&
+                [...new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(emojiId)].length === 1;
+            if (chatType !== 2 || !peerUid || !/^\d+$/.test(msgSeq) || msgSeq === "0" || (!/^\d{1,10}$/.test(emojiId) && !oneEmoji) || typeof value?.setEmoji !== "boolean") throw new Error("无法识别群消息或回应表情。");
+            if (!await ipcRenderer.invoke("EnhancedQQ.allowReaction")) throw new Error("表情回应扩展已关闭。");
+            const emojiType = value.emojiType === "1" ? "1" : "2";
+            const request = { peer: { chatType, peerUid, guildId: String(value.peer.guildId || "") }, msgSeq, emojiId, emojiType, setEmoji: value.setEmoji };
+            return qqResult(await invokeQQ("ntApi", "nodeIKernelMsgService/setMsgEmojiLikes", [request, null]));
+        },
         configChanged: () => ipcRenderer.send("EnhancedQQ.configChanged"),
         rendererReady: () => ipcRenderer.send("EnhancedQQ.rendererReady"),
         nativeBubbleStatus: (status, detail) => ipcRenderer.send("EnhancedQQ.nativeBubbleStatus", status, detail),

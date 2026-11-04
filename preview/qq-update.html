@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><title>EnhancedQQ · 更新拦截预览</title>
+<style>body{font:16px sans-serif;padding:24px}.q-context-menu-item,.setting-row{padding:8px}.q-switch{width:45px;height:25px}.enhancedqq-host,.aio{margin-top:20px}</style></head>
+<body>
+<button id="enable">开启保护</button><button id="disable">关闭保护</button>
+<div id="native-menu"><div class="q-context-menu-item">聊天记录管理</div><div class="q-context-menu-item" id="native-check">检查更新</div><div class="q-context-menu-item">帮助</div></div>
+<div class="setting-main"><div class="setting-row"><span>有新版本时自动安装QQ</span><button class="q-switch" role="switch" aria-checked="true">自动安装</button></div></div>
+<div class="enhancedqq-host"><button role="menuitem" id="plugin-check">检查更新</button></div>
+<div class="aio"><span role="menuitem" id="chat-text">检查更新</span></div>
+<script type="module">
+  history.replaceState(null, "", "#/setting/settings/common");
+  const control = document.querySelector(".q-switch");
+  control.onclick = () => control.setAttribute("aria-checked", control.getAttribute("aria-checked") === "true" ? "false" : "true");
+  const { createQQUpdateUiGuard } = await import("../src/renderer/qq-update.js");
+  const guard = createQQUpdateUiGuard(document);
+  document.querySelector("#enable").onclick = () => guard.setEnabled(true);
+  document.querySelector("#disable").onclick = () => guard.setEnabled(false);
+</script></body></html>

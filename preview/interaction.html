@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>EnhancedQQ · 菜单与回应预览</title>
+<style>body{font:16px sans-serif;padding:24px}.message{padding:12px;background:#eee;width:240px}.q-context-menu{margin-top:12px;padding:8px;background:#eee;width:max-content}.q-context-menu-item{padding:6px}.menu-stickers{display:flex;align-items:center}.stickers-list{display:grid;grid-template-columns:repeat(6, 36px)}</style></head>
+<body><button id="mode">切换为仅自选</button><output id="font-status">字库加载中</output><div class="message" id="message">右键此测试群消息</div><div class="q-context-menu aio-right-click-menu" hidden>
+  <div class="menu-stickers-wrapper"><div class="menu-stickers"><button class="menu-stickers-item">👍</button><button class="menu-stickers-item" id="native-more">更多</button></div></div>
+  <div class="q-context-menu-item"><span class="q-context-menu-item__text">复制</span></div><div class="q-context-menu-item"><span class="q-context-menu-item__text">删除</span></div>
+</div><div class="menu-stickers-panel" hidden><div class="stickers-title">最近表情</div><div class="stickers-list"><button class="stickers-list-item"><span>👍</span></button></div><div class="stickers-title">全部表情</div><div class="stickers-list"><button class="stickers-list-item"><span>😊</span></button></div></div><output id="result">尚未发送</output>
+<script type="module">
+  import { installContextMenu } from "../src/renderer/context-menu.js";
+  import { installReactions } from "../src/renderer/reactions.js";
+  import { ensureUnicodeEmojiFont } from "../src/renderer/unicode-emoji.js";
+  import { installReactionBurst } from "../src/renderer/reaction-burst.js";
+  const config = { features: { contextMenu: { enabled:true, hiddenItems:["删除"] }, reactions:{ enabled:true, expandPanel:true, burstEnabled:true, quickMode:"append", quickIds:["129418"] } } };
+  const catalog = [{id:"128522",label:"微笑",symbol:"😊"},{id:"129418",label:"狐狸",symbol:"🦊"},{id:"128640",label:"火箭",symbol:"🚀"}];
+  window.LiteLoader = { api:{config:{ get:async () => config }} };
+  const listeners = [];
+  window.EnhancedQQ = { onState(fn) {listeners.push(fn);}, getReactionCatalog:async () => catalog,
+    getUnicodeEmojiCatalog:async () => (await fetch("../src/vendor/unicode-emoji/emoji.json")).json(),
+    getUnicodeEmojiFont:async () => new Uint8Array(await (await fetch("../src/vendor/unicode-emoji/NotoColorEmoji.ttf")).arrayBuffer()),
+    sendReaction:async request => { document.querySelector("#result").textContent = `模拟回应：${request.emojiId} / ${request.setEmoji}`; } };
+  ensureUnicodeEmojiFont(window.EnhancedQQ).then(ready => { document.querySelector("#font-status").textContent = ready ? "字库已加载" : "字库加载失败"; });
+  document.querySelector("#mode").onclick = () => { config.features.reactions.quickMode = "custom"; listeners.forEach(fn => fn({ reactions: config.features.reactions, contextMenu: config.features.contextMenu })); };
+  document.querySelector("#message").__VUE__ = [{props:{msgRecord:{chatType:2,peerUid:"fixture-group",msgSeq:"123",emojiLikesList:[]}}}];
+  if (location.search.includes("edge")) Object.assign(document.querySelector(".menu-stickers-panel").style, {position:"fixed",left:"calc(100vw - 90px)",top:"calc(100vh - 80px)"});
+  document.querySelector("#message").addEventListener("contextmenu", event => {event.preventDefault(); document.querySelector(".q-context-menu").hidden = false;});
+  document.querySelector("#native-more").addEventListener("click", () => {document.querySelector(".menu-stickers-panel").hidden = false;});
+  installContextMenu(); installReactions(); installReactionBurst();
+</script></body></html>

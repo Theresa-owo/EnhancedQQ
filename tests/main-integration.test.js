@@ -30,7 +30,9 @@ test("main process connects login, native messages, configuration and state", as
     const on = ipcMain.on.bind(ipcMain);
     ipcMain.handle = (channel, fn) => handlers.set(channel, fn);
     ipcMain.on = (channel, fn) => { events.set(channel, fn); return on(channel, fn); };
-    const electron = { app, nativeTheme, BrowserWindow: { getAllWindows: () => [window] }, ipcMain };
+    const openedUrls = [];
+    const electron = { app, nativeTheme, BrowserWindow: { getAllWindows: () => [window] }, ipcMain,
+        shell: { openExternal: async url => { openedUrls.push(url); } } };
     const file = fileURLToPath(new URL("../src/main.cjs", import.meta.url));
     const nativeRequire = createRequire(file);
     const module = { exports: {} };
@@ -42,7 +44,7 @@ test("main process connects login, native messages, configuration and state", as
     vm.runInNewContext(fs.readFileSync(file, "utf8"), {
         require: name => name === "electron" ? electron : name === "./self-profile.cjs" ? profileStub : nativeRequire(name), module, exports: module.exports,
         LiteLoader, console, queueMicrotask, setTimeout, clearTimeout
-    }, { filename: file });
+    }, { filename: file, importModuleDynamically: vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER });
     module.exports.onBrowserWindowCreated(window);
     module.exports.onLogin("u_me");
     const outgoingText = value => ({ cmdName: "nodeIKernelMsgService/sendMsg", payload: [{ msgElements: [{ elementType: 1, textElement: { content: value, atType: 0 } }] }] });
@@ -56,6 +58,12 @@ test("main process connects login, native messages, configuration and state", as
     assert.equal(disabledSend.payload[0].msgElements[0].textElement.content, "你好QQ");
     assert.equal(handlers.get("EnhancedQQ.getState")().pangu.enabled, false);
     assert.equal(await handlers.get("EnhancedQQ.getSelfNickname")(), "nickname:u_me");
+    await assert.rejects(handlers.get("EnhancedQQ.openBiliVideo")({}, "https://b23.tv/AbC123"), /已关闭/);
+    config.features.biliExternal = { enabled: true };
+    events.get("EnhancedQQ.configChanged")();
+    await handlers.get("EnhancedQQ.openBiliVideo")({}, "https://b23.tv/AbC123");
+    await assert.rejects(handlers.get("EnhancedQQ.openBiliVideo")({}, "https://b23.tv.evil.test/AbC123"), /无法识别/);
+    assert.deepEqual(openedUrls, ["https://b23.tv/AbC123"]);
     const channel = "RM_IPCFROM_MAIN12";
     const normal = { msgId: "m1", chatType: 1, peerUid: "u_peer", senderUid: "u_friend", elements: [{ textElement: { content: "fixture" } }] };
     const tip = { msgId: "m1", chatType: 1, peerUid: "u_peer", elements: [{ grayTipElement: { revokeElement: { isSelfOperate: false } } }] };

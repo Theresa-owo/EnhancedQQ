@@ -1,0 +1,10 @@
+--- a/renderer/ark-external.js
++++ b/renderer/ark-external.js
+@@ -37,6 +37,7 @@
+     const target = e => {
+         if (window.qq_enhance || e.button !== 0) return "";
+         const card = e.target && e.target.closest && e.target.closest(".ark-msg-content-container .ark-item-container");
++        if (card && window.__enhancedqqOwnsBiliArk?.(card)) return "";
+         return card ? arkUrl(recordOf(card)) : "";
+     };
+     ["pointerdown", "mousedown", "pointerup", "mouseup", "click", "dblclick"].forEach(type =>

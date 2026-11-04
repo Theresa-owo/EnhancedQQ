@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>EnhancedQQ · 群管理预览</title>
+<style>body{font:16px sans-serif;padding:24px}.avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#edcbd4;cursor:context-menu}.q-context-menu{position:fixed;padding:6px;background:#f1e5e6;border-radius:14px;box-shadow:0 5px 20px #0002}.q-context-menu-item{padding:6px}</style></head>
+<body><button id="role">切换为管理员</button><div class="ml-item"><div class="message"><div class="avatar">头像</div><span>测试群成员</span></div></div><output id="result">尚未执行</output><div class="aio"><div class="chat-input-area" style="position:fixed;bottom:0;left:0;right:0;height:120px;background:#ddd">输入区</div></div>
+<script type="module">
+  import { installGroupActions } from "../src/renderer/group-actions.js";
+  import { installContextMenuPositioning } from "../src/renderer/menu-position.js";
+  const config = {features:{groupTools:{enabled:true}}};
+  let owner = true;
+  document.querySelector("#role").onclick = () => { owner = false; };
+  window.LiteLoader = {api:{config:{get:async () => config}}};
+  window.EnhancedQQ = {onState(){},getGroupCapabilities:async () => ({canMute:true,canTitle:owner,title:"旧头衔",name:"测试成员",uin:"987654321"}),
+    performGroupAction:async (action, group, member, value) => {document.querySelector("#result").textContent = `模拟操作：${action} / ${value}`;}};
+  document.querySelector(".message").__VUE__ = [{props:{msgRecord:{chatType:2,peerUid:"12345678",senderUid:"u_target123"}}}];
+  if (location.search.includes("edge")) Object.assign(document.querySelector(".avatar").style, {position:"fixed",right:"3px",bottom:"125px"});
+  document.querySelector(".avatar").addEventListener("contextmenu", event => {
+    event.preventDefault(); document.querySelector(".q-context-menu")?.remove();
+    const menu=document.createElement("div");menu.className="q-context-menu group-member-menu";menu.style.left=`${event.clientX}px`;menu.style.top=`${event.clientY}px`;
+    const item=document.createElement("div");item.className="q-context-menu-item";item.textContent="QQ 原有菜单";menu.append(item);document.body.append(menu);
+  });
+  installGroupActions(); installContextMenuPositioning();
+</script></body></html>

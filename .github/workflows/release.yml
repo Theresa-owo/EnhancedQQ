@@ -1,0 +1,31 @@
+name: Package Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --omit=dev --ignore-scripts
+      - name: Verify tag matches plugin version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: node -e "const v = require('./package.json').version; if (![v, 'v' + v].includes(process.env.RELEASE_TAG)) throw new Error('release tag must match plugin version')"
+      - run: node scripts/package-release.cjs
+      - name: Attach plugin package
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$RELEASE_TAG" dist/EnhancedQQ.zip --clobber
