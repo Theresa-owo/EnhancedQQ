@@ -1,0 +1,17 @@
+{
+  "manifest_version": 4,
+  "type": "extension",
+  "name": "EnhancedQQ",
+  "slug": "enhancedqq",
+  "description": "QQ 增强、防撤回、发送排版、Telegram 气泡、TTS 与红包辅助。",
+  "version": "0.9.4",
+  "icon": "./assets/icon.svg",
+  "thumb": "./assets/icon.svg",
+  "authors": [],
+  "platform": ["win32"],
+  "injects": {
+    "main": "./src/main.cjs",
+    "preload": "./src/preload.js",
+    "renderer": "./src/renderer/index.js"
+  }
+}

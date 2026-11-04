@@ -1,0 +1,143 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import vm from "node:vm";
+import { EventEmitter } from "node:events";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+
+test("main process connects login, native messages, configuration and state", async t => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "enhancedqq-main-test-"));
+    const app = new EventEmitter();
+    t.after(() => { app.emit("before-quit"); fs.rmSync(root, { recursive: true, force: true }); });
+    const handlers = new Map();
+    const events = new Map();
+    const sent = [];
+    let config = { features: { antiRecall: { showOwn: false } } };
+    class FakeNativeTheme extends EventEmitter {
+        source = "light";
+        systemDark = true;
+        get themeSource() { return this.source; }
+        set themeSource(value) { this.source = value; this.emit("updated"); }
+        get shouldUseDarkColors() { return this.source === "system" ? this.systemDark : this.source === "dark"; }
+    }
+    const nativeTheme = new FakeNativeTheme();
+    const webContents = { id: 12, isDestroyed: () => false, send: (channel, ...args) => { sent.push({ channel, args }); return "sent"; } };
+    const window = { webContents, isDestroyed: () => false };
+    const ipcMain = new EventEmitter();
+    const on = ipcMain.on.bind(ipcMain);
+    ipcMain.handle = (channel, fn) => handlers.set(channel, fn);
+    ipcMain.on = (channel, fn) => { events.set(channel, fn); return on(channel, fn); };
+    const electron = { app, nativeTheme, BrowserWindow: { getAllWindows: () => [window] }, ipcMain };
+    const file = fileURLToPath(new URL("../src/main.cjs", import.meta.url));
+    const nativeRequire = createRequire(file);
+    const module = { exports: {} };
+    const nativeRecalls = [];
+    const profileStub = { createSelfNicknameResolver: getUid => ({ get: async () => `nickname:${getUid()}`, clear() {} }),
+        getWrapper: () => ({ NodeIQQNTWrapperSession: { getNTWrapperSession: () => ({ getMsgService: () => ({ recallMsg: (peer, ids) => { nativeRecalls.push({ peer, ids }); return { result: 0 }; } }) }) } }) };
+    const LiteLoader = { plugins: { enhancedqq: { path: { data: root, plugin: path.resolve(path.dirname(file), "..") }, manifest: { version: "0.5.0" } } },
+        api: { config: { get: () => config } }, versions: { liteloader: "1.4.1", qqnt: "9.9.37" } };
+    vm.runInNewContext(fs.readFileSync(file, "utf8"), {
+        require: name => name === "electron" ? electron : name === "./self-profile.cjs" ? profileStub : nativeRequire(name), module, exports: module.exports,
+        LiteLoader, console, queueMicrotask, setTimeout, clearTimeout
+    }, { filename: file });
+    module.exports.onBrowserWindowCreated(window);
+    module.exports.onLogin("u_me");
+    const outgoingText = value => ({ cmdName: "nodeIKernelMsgService/sendMsg", payload: [{ msgElements: [{ elementType: 1, textElement: { content: value, atType: 0 } }] }] });
+    const enabledSend = outgoingText("你好QQ");
+    ipcMain.emit("RM_IPCFROM_RENDERER12", { sender: webContents }, { eventName: "ntApi" }, enabledSend);
+    assert.equal(enabledSend.payload[0].msgElements[0].textElement.content, "你好 QQ");
+    config.features.pangu = { enabled: false };
+    events.get("EnhancedQQ.configChanged")();
+    const disabledSend = outgoingText("你好QQ");
+    ipcMain.emit("RM_IPCFROM_RENDERER12", { sender: webContents }, { eventName: "ntApi" }, disabledSend);
+    assert.equal(disabledSend.payload[0].msgElements[0].textElement.content, "你好QQ");
+    assert.equal(handlers.get("EnhancedQQ.getState")().pangu.enabled, false);
+    assert.equal(await handlers.get("EnhancedQQ.getSelfNickname")(), "nickname:u_me");
+    const channel = "RM_IPCFROM_MAIN12";
+    const normal = { msgId: "m1", chatType: 1, peerUid: "u_peer", senderUid: "u_friend", elements: [{ textElement: { content: "fixture" } }] };
+    const tip = { msgId: "m1", chatType: 1, peerUid: "u_peer", elements: [{ grayTipElement: { revokeElement: { isSelfOperate: false } } }] };
+    const args = record => [{ type: "request" }, { cmdName: "nodeIKernelMsgListener/onMsgInfoListUpdate", payload: { msgList: [record] } }];
+    webContents.send(channel, ...args(normal));
+    assert.equal(webContents.send(channel, ...args(tip)), "sent");
+    await Promise.resolve();
+    const forwarded = sent.findLast(item => item.channel === channel);
+    assert.equal(forwarded.args[1].payload.msgList[0].elements[0].textElement.content, "fixture");
+    assert.deepEqual(handlers.get("EnhancedQQ.getState")().markers, [{ id: "m1", self: false }]);
+    config = { features: { antiRecall: { showOwn: true } } };
+    events.get("EnhancedQQ.configChanged")();
+    assert.equal(handlers.get("EnhancedQQ.getState")().showOwn, true);
+    assert.equal(handlers.get("EnhancedQQ.reserveRedPacket")({}, "example", "lucky"), false);
+    assert.equal(handlers.get("EnhancedQQ.getWebContentsId")({ sender: { id: 12 } }), 12);
+    config.features.autoRedPacket = { enabled: true, types: { lucky: true, text: true }, recallText: true };
+    events.get("EnhancedQQ.configChanged")();
+    assert.equal(handlers.get("EnhancedQQ.getState")().autoRedPacket.enabled, true);
+    const packet = { msgId: "wallet-1", msgTime: String(Math.floor(Date.now() / 1000)), senderUid: "u_me", sendStatus: 2, msgSeq: "7", chatType: 2, peerUid: "group", elements: [{ elementType: 9, walletElement: { redChannel: 1 } }] };
+    webContents.send(channel, ...args(packet));
+    await Promise.resolve();
+    assert.equal(sent.findLast(item => item.channel === "EnhancedQQ.redPacketRecord").args[0].msgList[0].msgId, "wallet-1");
+    const otherSent = [];
+    const otherContents = { isDestroyed: () => false, send: (name, ...value) => { otherSent.push({ channel: name, args: value }); return "sent"; } };
+    module.exports.onBrowserWindowCreated({ webContents: otherContents, isDestroyed: () => false });
+    const passwordPeer = { chatType: 2, peerUid: "group", guildId: "" };
+    assert.equal(handlers.get("EnhancedQQ.trackOutgoing")({ sender: webContents }, "attr-1", "red-packet-text", passwordPeer), true);
+    otherContents.send(channel, ...args({ msgId: "password-1", senderUid: "u_me", chatType: 2, peerUid: "group", sendStatus: 1,
+        msgAttrs: new Map([[0, { attrId: "attr-1" }]]), elements: [{ elementType: 1, textElement: { content: "test" } }] }));
+    otherContents.send(channel, ...args({ msgId: "password-1", sendStatus: 2 }));
+    await Promise.resolve();
+    assert.equal(sent.findLast(item => item.channel === "EnhancedQQ.outgoingStatus").args[0].msgId, "password-1");
+    assert.equal(handlers.get("EnhancedQQ.markOutgoingSent")({ sender: webContents }, "attr-1", "password-1"), true);
+    assert.deepEqual(await handlers.get("EnhancedQQ.recallAutoText")({ sender: webContents }, passwordPeer, "password-1"), { result: 0 });
+    assert.equal(nativeRecalls[0].peer.peerUid, "group");
+    assert.equal(nativeRecalls[0].ids[0], "password-1");
+    const passwordRecall = { msgId: "password-1", chatType: 2, peerUid: "group", elements: [{ grayTipElement: { revokeElement: { isSelfOperate: true } } }] };
+    otherContents.send(channel, ...args(passwordRecall));
+    assert.strictEqual(otherSent.findLast(item => item.channel === channel).args[1].payload.msgList[0], passwordRecall);
+    assert.equal(handlers.get("EnhancedQQ.reserveRedPacket")({}, "example", "lucky"), true);
+    assert.equal(handlers.get("EnhancedQQ.reserveRedPacket")({}, "example", "lucky"), false);
+    config.features.autoRedPacket.types.lucky = false;
+    events.get("EnhancedQQ.configChanged")();
+    assert.equal(handlers.get("EnhancedQQ.allowRedPacketAction")({}, "example", "lucky", true), false);
+    assert.ok(sent.some(item => item.channel === "EnhancedQQ.state"));
+    assert.equal(handlers.get("EnhancedQQ.getState")().enabled, true);
+    config = { features: { antiRecall: { enabled: false, showOwn: true } } };
+    events.get("EnhancedQQ.configChanged")();
+    assert.equal(handlers.get("EnhancedQQ.getState")().enabled, false);
+    const next = { ...normal, msgId: "m2" };
+    const nextTip = { ...tip, msgId: "m2" };
+    webContents.send(channel, ...args(next));
+    webContents.send(channel, ...args(nextTip));
+    assert.strictEqual(sent.findLast(item => item.channel === channel).args[1].payload.msgList[0], nextTip);
+    config = { features: { antiRecall: { enabled: true, showOwn: true } } };
+    events.get("EnhancedQQ.configChanged")();
+    webContents.send(channel, ...args(nextTip));
+    assert.strictEqual(sent.findLast(item => item.channel === channel).args[1].payload.msgList[0], nextTip);
+    config = { features: { antiRecall: { enabled: true, showOwn: true }, telegramBubbles: { enabled: true, dark: { "--tg-message-self-bg-color": "#123456" } }, themeColor: { source: "fixed", color: "#df7798" } } };
+    events.get("EnhancedQQ.configChanged")();
+    assert.equal(handlers.get("EnhancedQQ.getState")().telegramBubbles.dark["--tg-message-self-bg-color"], "#123456");
+    assert.equal(handlers.get("EnhancedQQ.getState")().themeColor.color, "#df7798");
+    assert.equal(handlers.get("EnhancedQQ.getState")().showOwn, true);
+    const assets = handlers.get("EnhancedQQ.getTelegramAssets")();
+    assert.equal(assets.definitions.light["--tg-message-self-bg-color"].defaultValue, "#effdde");
+    assert.equal(assets.styles.length, 2);
+    assert.ok(assets.styles.every(style => style.length > 0));
+    assert.equal(nativeTheme.themeSource, "light");
+    config.features.themeColor.mode = "system";
+    events.get("EnhancedQQ.configChanged")();
+    assert.equal(nativeTheme.themeSource, "system");
+    assert.equal(handlers.get("EnhancedQQ.getState")().nativeDark, true);
+    nativeTheme.systemDark = false;
+    nativeTheme.emit("updated");
+    assert.equal(sent.findLast(item => item.channel === "EnhancedQQ.state").args[0].nativeDark, false);
+    nativeTheme.themeSource = "dark";
+    assert.equal(nativeTheme.themeSource, "system");
+    config.features.themeColor.mode = "dark";
+    events.get("EnhancedQQ.configChanged")();
+    assert.equal(nativeTheme.themeSource, "dark");
+    assert.equal(handlers.get("EnhancedQQ.getState")().nativeDark, true);
+    config.features.themeColor.mode = "qq";
+    events.get("EnhancedQQ.configChanged")();
+    assert.equal(nativeTheme.themeSource, "light");
+});

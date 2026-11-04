@@ -1,0 +1,728 @@
+/* Generated from Telegram Theme v4, commit 42fda79c9ba157831be37d6c31ebebc3f9a4d919.
+ * Copyright (c) 2023 festoney8; MIT License: see src/vendor/telegram-theme/LICENSE.
+ * Declarations are scoped and made important to coexist with Liuli. */
+body[data-enhancedqq-telegram="on"] {
+  --tg-panel-header-bg-color: #ffffff;
+  --tg-panel-message-timestamp-font-size: 15px;
+  --tg-message-others-username-font-color: #ffffff;
+  --tg-message-others-username-font-size: 14px;
+  --tg-message-others-bg-color: #ffffff;
+  --tg-message-others-font-color: #000000;
+  --tg-message-others-font-size: 16px;
+  --tg-message-others-highlight-color: #3fa1b5;
+  --tg-message-others-url-color: #168ad0;
+  --tg-message-others-reply-content-font-size: 14px;
+  --tg-message-others-reply-content-font-color: #000000;
+  --tg-message-others-reply-highlight-color: #3fa1b5;
+  --tg-message-others-reply-bg-color: #e6f3f5;
+  --tg-message-others-forward-msg-bg-color: #ffffff;
+  --tg-message-others-pic-element-zoom: 1.2;
+  --tg-message-others-avatar-size: 40px;
+  --tg-message-self-bg-color: #effdde;
+  --tg-message-self-font-color: #000000;
+  --tg-message-self-font-size: 16px;
+  --tg-message-self-highlight-color: #61b542;
+  --tg-message-self-url-color: #168ad0;
+  --tg-message-self-reply-content-font-color: #000000;
+  --tg-message-self-reply-content-font-size: 14px;
+  --tg-message-self-reply-highlight-color: #61b542;
+  --tg-message-self-reply-bg-color: #def5ce;
+  --tg-message-self-forward-msg-bg-color: #ffffff;
+  --tg-message-self-pic-element-zoom: 1.2;
+  --tg-menu-bg-color: #ffffff;
+  --tg-panel-tip-bg-color: #ffffff;
+  --tg-panel-tip-font-color: #419fd9;
+  --tg-panel-tip-primary-bg-color: #419fd9;
+  --tg-panel-tip-primary-font-color: #ffffff;
+  --tg-message-reaction-bg-color: #e8f5fc;
+  --tg-message-reaction-font-color: #40a7e3;
+  --tg-message-reaction-clicked-bg-color: #40a7e3;
+  --tg-message-reaction-clicked-font-color: #ffffff;
+}
+@media (prefers-color-scheme: dark) { body[data-enhancedqq-telegram="on"]:not([data-liuli-dark]) {
+  --tg-panel-header-bg-color: #17212b;
+  --tg-panel-message-timestamp-font-size: 15px;
+  --tg-message-others-username-font-color: #faa357;
+  --tg-message-others-username-font-size: 14px;
+  --tg-message-others-bg-color: #182533;
+  --tg-message-others-font-color: #f5f5f5;
+  --tg-message-others-font-size: 16px;
+  --tg-message-others-highlight-color: #e39653;
+  --tg-message-others-url-color: #70baf5;
+  --tg-message-others-reply-content-font-color: #ffffff;
+  --tg-message-others-reply-content-font-size: 14px;
+  --tg-message-others-reply-highlight-color: #e39653;
+  --tg-message-others-reply-bg-color: #323437;
+  --tg-message-others-forward-msg-bg-color: #182533;
+  --tg-message-others-pic-element-zoom: 1.2;
+  --tg-message-others-avatar-size: 40px;
+  --tg-message-self-bg-color: #2b5278;
+  --tg-message-self-font-color: #e4ecf2;
+  --tg-message-self-font-size: 16px;
+  --tg-message-self-highlight-color: #5faee7;
+  --tg-message-self-url-color: #70baf5;
+  --tg-message-self-reply-content-font-color: #ffffff;
+  --tg-message-self-reply-content-font-size: 14px;
+  --tg-message-self-reply-highlight-color: #5faee7;
+  --tg-message-self-reply-bg-color: #325e87;
+  --tg-message-self-forward-msg-bg-color: #182533;
+  --tg-message-self-pic-element-zoom: 1.2;
+  --tg-menu-bg-color: #17212b;
+  --tg-panel-tip-bg-color: #1d2b3a;
+  --tg-panel-tip-font-color: #ffffff;
+  --tg-panel-tip-primary-bg-color: #4082bc;
+  --tg-panel-tip-primary-font-color: #ffffff;
+  --tg-message-reaction-bg-color: #1c3345;
+  --tg-message-reaction-font-color: #ffffff;
+  --tg-message-reaction-clicked-bg-color: #3f96d0;
+  --tg-message-reaction-clicked-font-color: #ffffff;
+} }
+body[data-enhancedqq-telegram="on"][data-liuli-dark="1"] {
+  --tg-panel-header-bg-color: #17212b;
+  --tg-panel-message-timestamp-font-size: 15px;
+  --tg-message-others-username-font-color: #faa357;
+  --tg-message-others-username-font-size: 14px;
+  --tg-message-others-bg-color: #182533;
+  --tg-message-others-font-color: #f5f5f5;
+  --tg-message-others-font-size: 16px;
+  --tg-message-others-highlight-color: #e39653;
+  --tg-message-others-url-color: #70baf5;
+  --tg-message-others-reply-content-font-color: #ffffff;
+  --tg-message-others-reply-content-font-size: 14px;
+  --tg-message-others-reply-highlight-color: #e39653;
+  --tg-message-others-reply-bg-color: #323437;
+  --tg-message-others-forward-msg-bg-color: #182533;
+  --tg-message-others-pic-element-zoom: 1.2;
+  --tg-message-others-avatar-size: 40px;
+  --tg-message-self-bg-color: #2b5278;
+  --tg-message-self-font-color: #e4ecf2;
+  --tg-message-self-font-size: 16px;
+  --tg-message-self-highlight-color: #5faee7;
+  --tg-message-self-url-color: #70baf5;
+  --tg-message-self-reply-content-font-color: #ffffff;
+  --tg-message-self-reply-content-font-size: 14px;
+  --tg-message-self-reply-highlight-color: #5faee7;
+  --tg-message-self-reply-bg-color: #325e87;
+  --tg-message-self-forward-msg-bg-color: #182533;
+  --tg-message-self-pic-element-zoom: 1.2;
+  --tg-menu-bg-color: #17212b;
+  --tg-panel-tip-bg-color: #1d2b3a;
+  --tg-panel-tip-font-color: #ffffff;
+  --tg-panel-tip-primary-bg-color: #4082bc;
+  --tg-panel-tip-primary-font-color: #ffffff;
+  --tg-message-reaction-bg-color: #1c3345;
+  --tg-message-reaction-font-color: #ffffff;
+  --tg-message-reaction-clicked-bg-color: #3f96d0;
+  --tg-message-reaction-clicked-font-color: #ffffff;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .chat-msg-area__tip--top {
+  background-color: var(--tg-panel-header-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .ml-area .ml-root .ml-list {
+  overflow: visible !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .ml-area .ml-root .ml-list .ml-item .message {
+  padding-bottom: 0 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .ml-area .ml-root .ml-list .ml-item .message .message__timestamp .babble,
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .ml-area .ml-root .ml-list .ml-item .message .gray-tip-message .babble {
+  background-color: unset !important;
+  padding: 0 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .ml-area .ml-root .ml-list .ml-item .message .message__timestamp,
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .ml-area .ml-root .ml-list .ml-item .message .gray-tip-message {
+  width: fit-content !important;
+  margin: 15px auto !important;
+  color: white !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border-radius: 100px !important;
+  font-size: var(--tg-panel-message-timestamp-font-size) !important;
+  padding: 0.4em 0.8em !important;
+  letter-spacing: 1px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .ml-area .ml-root .ml-list .ml-item .message .message__timestamp .gray-tip-action,
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .ml-area .ml-root .ml-list .ml-item .message .gray-tip-message .gray-tip-action {
+  color: var(--tg-message-others-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .menu-stickers-panel {
+  background-color: var(--tg-menu-bg-color) !important;
+  border-radius: 6px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .chat-msg-area__tip--top-btn.theme-primary {
+  background-color: var(--tg-panel-tip-primary-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .chat-msg-area__tip--top-btn.theme-primary .content {
+  margin-left: 0.5em !important;
+  color: var(--tg-panel-tip-primary-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .chat-msg-area__tip--top-btn.theme-primary .icon .q-icon {
+  color: white !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .chat-msg-area__tip--top-btn:not(.theme-primary) {
+  background-color: var(--tg-panel-tip-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .chat-msg-area__tip--top-btn:not(.theme-primary) .content {
+  margin-left: 0.5em !important;
+  color: var(--tg-panel-tip-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .chat-msg-area__tip--bottom {
+  padding: 0 !important;
+  width: 45px !important;
+  height: 45px !important;
+  background-color: var(--tg-panel-tip-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .chat-msg-area__tip--bottom .icon {
+  zoom: 1.3 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .aio .group-panel .group-chat main.chat-msg-area .chat-msg-area__tip--bottom .content {
+  margin-left: 0 !important;
+  color: var(--tg-panel-tip-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--align-right {
+  grid-template-columns: auto minmax(20%, 1fr) calc(var(--avatar_size_2) + 8px) auto 0 0 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--align-right .avatar,
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--align-right .only-time,
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--align-right .user-name {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--align-right) {
+  grid-template-columns: auto var(--tg-message-others-avatar-size) 12px auto calc(var(--tg-message-others-avatar-size) + 8px) minmax(20%, 1fr) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--align-right):not(:has(.user-name)) {
+  grid-template-areas: "checkbox . nickname nickname nickname" "checkbox . content status ." "checkbox . tips tips tips" !important;
+  grid-template-columns: auto auto auto calc(var(--tg-message-others-avatar-size) + 8px) minmax(20%, 1fr) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--align-right):not(:has(.user-name)) .avatar,
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--align-right):not(:has(.user-name)) .only-time {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .icon-wrapper:has(img[src*=essence]) {
+  background-color: var(--tg-message-reaction-bg-color) !important;
+  color: var(--tg-message-reaction-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .reaction-panel:not(:empty) {
+  margin-left: 0 !important;
+  margin-bottom: 2px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .reaction-item .reaction-item-bg {
+  border-radius: 100px !important;
+  background-color: var(--tg-message-reaction-bg-color) !important;
+  opacity: 1 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .reaction-item .reaction-item-bg.reaction-item-bg--clicked {
+  background-color: var(--tg-message-reaction-clicked-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .reaction-item .reaction-item-text {
+  font-size: 14px !important;
+  font-weight: bold !important;
+  color: var(--tg-message-reaction-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .reaction-item.reaction-item--clicked .reaction-item-text {
+  color: var(--tg-message-reaction-clicked-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .reaction-content:empty {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .more-reaction-item {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) {
+  padding: 0 20px 0 20px !important;
+  position: relative !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .user-name {
+  color: var(--tg-message-others-username-font-color) !important;
+  font-weight: bold !important;
+  font-size: var(--tg-message-others-username-font-size) !important;
+  margin-bottom: 2px !important;
+  overflow: visible !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .user-name .text-ellipsis {
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.4) !important;
+  overflow: visible !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .user-name .q-tag .level {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .user-name .q-tag.q-tag--grey, body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .user-name .q-tag.q-tag--purple {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .avatar-span .message-container__avatar {
+  width: var(--tg-message-others-avatar-size) !important;
+  height: var(--tg-message-others-avatar-size) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .avatar-span .avatar {
+  position: sticky !important;
+  bottom: 10px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .message-content__wrapper {
+  min-height: unset !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .message-content__wrapper .file-message--content .normal-file {
+  zoom: 1.05 !important;
+  background-color: var(--tg-message-others-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .message-content__wrapper .file-message--content .normal-file .file-icon {
+  border-radius: 50% !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .message-content__wrapper .file-message--content .normal-file .file-info {
+  color: var(--tg-message-others-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .message-content__wrapper .video-element {
+  zoom: var(--tg-message-others-pic-element-zoom) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .message-content__wrapper .forward-msg {
+  background-color: var(--tg-message-others-forward-msg-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .message-content__wrapper .forward-msg .text-ellipsis {
+  overflow: hidden !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .message-content__wrapper:has(.forward-msg) {
+  background-color: var(--tg-message-others-forward-msg-bg-color) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .content-status {
+  zoom: 1.5 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others {
+  position: relative !important;
+  overflow: hidden !important;
+  background-color: var(--tg-message-others-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container--market-face, body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container--pic, body[data-enhancedqq-telegram=on] #app#app .container--others.wallet-message__container {
+  background-color: transparent !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others:has(.text-element, .face-element), body[data-enhancedqq-telegram=on] #app#app .container--others:is(.ptt-message) {
+  padding: calc(var(--tg-message-others-font-size) * 0.5) calc(var(--tg-message-others-font-size) * 0.8) !important;
+  border-radius: 20px 20px 20px 8px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container--pic {
+  max-width: calc(var(--img-max-width) * var(--tg-message-others-pic-element-zoom)) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container--pic .message-content {
+  zoom: var(--tg-message-others-pic-element-zoom) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container--pic .image-loading,
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container--pic .image-error {
+  background-color: var(--tg-message-others-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container:not(.mix-message__container--pic):has(.pic-element) {
+  padding: 0 !important;
+  border-radius: 20px 20px 20px 8px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .message-content {
+  width: min-content !important;
+  min-width: calc(10 * var(--tg-message-others-font-size) + 24px) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .pic-element {
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  zoom: var(--tg-message-others-pic-element-zoom) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .pic-element .image-loading,
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .pic-element .image-error {
+  background-color: var(--tg-message-others-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .text-element {
+  margin: 8px 12px !important;
+  display: inline-block !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .face-element {
+  margin: 1px 12px !important;
+  display: inline-block !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container:not(.mix-message__container--pic):has(.pic-element) :is(.face-element, .text-element):not(:first-of-type) {
+  margin-left: 1px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.mix-message__container:not(.mix-message__container--pic):has(.pic-element) :is(.face-element, .text-element):not(:last-of-type) {
+  margin-right: 1px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others.reply-message__container {
+  padding: 12px 12px 8px 12px !important;
+  border-radius: 20px 20px 20px 8px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .reply-element {
+  margin: 0 0 8px 0 !important;
+  border-radius: 5px 8px 8px 5px !important;
+  border-left: 4px solid var(--tg-message-others-reply-highlight-color) !important;
+  background-color: var(--tg-message-others-reply-bg-color) !important;
+  cursor: pointer !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .reply-element .reply-title {
+  color: var(--tg-message-others-reply-highlight-color) !important;
+  opacity: unset !important;
+  font-weight: bold !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .reply-element .reply-title .reply-info {
+  font-size: var(--tg-message-others-reply-content-font-size) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .reply-element .reply-title .q-icon {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .reply-element .reply-content {
+  color: var(--tg-message-others-reply-content-font-color) !important;
+  font-size: var(--tg-message-others-reply-content-font-size) !important;
+  font-weight: 500 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .reply-element .reply-content .pic,
+body[data-enhancedqq-telegram=on] #app#app .container--others .reply-element .reply-content .video {
+  zoom: 1.5 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .message-content {
+  font-size: var(--tg-message-others-font-size) !important;
+  line-height: calc(var(--tg-message-others-font-size) + 4px) !important;
+  flex-direction: column !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .message-content .text-normal {
+  color: var(--tg-message-others-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .message-content .text-element--at {
+  color: var(--tg-message-others-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .message-content .text-link {
+  color: var(--tg-message-others-url-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .ptt-element {
+  zoom: 1.2 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .ptt-element__button {
+  background-color: var(--tg-message-others-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .ptt-element__button .q-icon {
+  color: var(--tg-message-others-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .ptt-element__progress .ptt-element__progress-item {
+  background-color: var(--tg-message-others-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .ptt-element__duration span {
+  font-size: 12px !important;
+  font-weight: bold !important;
+  color: var(--tg-message-others-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .ptt-element__bottom-area-text {
+  color: var(--tg-message-others-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .ptt-element__bottom-area-icon .q-icon {
+  color: var(--tg-message-others-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .av-msg .q-icon {
+  color: var(--tg-message-others-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--others .av-msg span {
+  color: var(--tg-message-others-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self {
+  padding: 0 20px 0 20px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .message-content__wrapper {
+  min-height: unset !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .message-content__wrapper .file-message--content .normal-file {
+  zoom: 1.05 !important;
+  background-color: var(--tg-message-self-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .message-content__wrapper .file-message--content .normal-file .file-icon {
+  border-radius: 50% !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .message-content__wrapper .file-message--content .normal-file .file-info {
+  color: var(--tg-message-self-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .message-content__wrapper .video-element {
+  zoom: var(--tg-message-self-pic-element-zoom) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .message-content__wrapper .forward-msg {
+  background-color: var(--tg-message-self-forward-msg-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .message-content__wrapper .forward-msg .text-ellipsis {
+  overflow: hidden !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .message-content__wrapper:has(.forward-msg) {
+  background-color: var(--tg-message-self-forward-msg-bg-color) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .content-status {
+  zoom: 1.5 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self {
+  position: relative !important;
+  overflow: hidden !important;
+  background-color: var(--tg-message-self-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container--market-face, body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container--pic, body[data-enhancedqq-telegram=on] #app#app .container--self.wallet-message__container {
+  background-color: transparent !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self:has(.text-element, .face-element), body[data-enhancedqq-telegram=on] #app#app .container--self:is(.ptt-message) {
+  padding: calc(var(--tg-message-self-font-size) * 0.5) calc(var(--tg-message-self-font-size) * 0.8) !important;
+  border-radius: 20px 20px 8px 20px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container--pic {
+  max-width: calc(var(--img-max-width) * var(--tg-message-self-pic-element-zoom)) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container--pic .message-content {
+  zoom: var(--tg-message-self-pic-element-zoom) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container--pic .image-loading,
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container--pic .image-error {
+  background-color: var(--tg-message-self-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container:not(.mix-message__container--pic):has(.pic-element) {
+  padding: 0 !important;
+  border-radius: 20px 20px 8px 20px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .message-content {
+  width: min-content !important;
+  min-width: calc(10 * var(--tg-message-self-font-size) + 24px) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .pic-element {
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  zoom: var(--tg-message-self-pic-element-zoom) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .pic-element .image-loading,
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .pic-element .image-error {
+  background-color: var(--tg-message-self-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .text-element {
+  margin: 8px 12px !important;
+  display: inline-block !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container:not(.mix-message__container--pic):has(.pic-element) .face-element {
+  margin: 1px 12px !important;
+  display: inline-block !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container:not(.mix-message__container--pic):has(.pic-element) :is(.face-element, .text-element):not(:first-of-type) {
+  margin-left: 1px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.mix-message__container:not(.mix-message__container--pic):has(.pic-element) :is(.face-element, .text-element):not(:last-of-type) {
+  margin-right: 1px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.reply-message__container {
+  padding: 12px 12px 8px 12px !important;
+  border-radius: 20px 20px 8px 20px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .reply-element {
+  margin: 0 0 8px 0 !important;
+  border-radius: 5px 8px 8px 5px !important;
+  border-left: 4px solid var(--tg-message-self-reply-highlight-color) !important;
+  background-color: var(--tg-message-self-reply-bg-color) !important;
+  cursor: pointer !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .reply-element .reply-title {
+  color: var(--tg-message-self-reply-highlight-color) !important;
+  opacity: unset !important;
+  font-weight: bold !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .reply-element .reply-title .reply-info {
+  font-size: var(--tg-message-self-reply-content-font-size) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .reply-element .reply-title .q-icon {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .reply-element .reply-content {
+  color: var(--tg-message-self-reply-content-font-color) !important;
+  font-size: var(--tg-message-self-reply-content-font-size) !important;
+  font-weight: 500 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .reply-element .reply-content .pic,
+body[data-enhancedqq-telegram=on] #app#app .container--self .reply-element .reply-content .video {
+  zoom: 1.5 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .message-content {
+  font-size: var(--tg-message-self-font-size) !important;
+  line-height: calc(var(--tg-message-self-font-size) + 4px) !important;
+  flex-direction: column !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .message-content .text-normal {
+  color: var(--tg-message-self-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .message-content .text-element--at {
+  color: var(--tg-message-self-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .message-content .text-link {
+  color: var(--tg-message-self-url-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .ptt-element {
+  zoom: 1.2 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .ptt-element .ptt-element__button {
+  background-color: var(--tg-message-self-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .ptt-element .ptt-element__button .q-icon {
+  color: var(--tg-message-self-bg-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .ptt-element .ptt-element__progress .ptt-element__progress-item {
+  background-color: var(--tg-message-self-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .ptt-element .ptt-element__duration span {
+  font-size: 12px !important;
+  font-weight: bold !important;
+  color: var(--tg-message-self-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .ptt-element__bottom-area .ptt-element__bottom-area-text {
+  color: var(--tg-message-self-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self .ptt-element__bottom-area .ptt-element__bottom-area-icon .q-icon {
+  color: var(--tg-message-self-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.av-message__container .av-msg .q-icon {
+  color: var(--tg-message-self-highlight-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .container--self.av-message__container .av-msg span {
+  color: var(--tg-message-self-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .avatar-span {
+  will-change: height, display, position, align-items, bottom !important;
+  transform: translateZ(0) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .self-single {
+  margin-bottom: 20px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .self-body {
+  margin-top: 3px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .self-body .msg-content-container {
+  border-top-right-radius: 8px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .self-tail {
+  margin-top: 3px !important;
+  margin-bottom: 20px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .self-tail .msg-content-container {
+  border-top-right-radius: 8px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .others-single {
+  margin-bottom: 20px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .others-single .avatar-span {
+  display: flex !important;
+  align-items: flex-end !important;
+  bottom: 0 !important;
+  height: 100% !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .others-head .avatar-span {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .others-body {
+  margin-top: 3px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .others-body .msg-content-container {
+  border-top-left-radius: 8px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .others-body .user-name,
+body[data-enhancedqq-telegram=on] #app#app .others-body .avatar-span {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .others-tail {
+  margin-top: 3px !important;
+  margin-bottom: 20px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .others-tail .msg-content-container {
+  border-top-left-radius: 8px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .others-tail .user-name {
+  display: none !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .others-tail .avatar-span {
+  display: flex !important;
+  align-items: flex-end !important;
+  position: absolute !important;
+  height: 100% !important;
+  bottom: 0 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .lite-tools-slot.embed-slot .lite-tools-time {
+  opacity: 0.8 !important;
+  color: var(--tg-message-others-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .lite-tools-slot.inside-slot .lite-tools-time {
+  opacity: 1 !important;
+  color: white !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .lite-tools-slot.outside-slot .lite-tools-time {
+  opacity: 0.8 !important;
+  color: var(--tg-message-others-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .lite-tools-slot.embed-slot .lite-tools-time {
+  opacity: 0.8 !important;
+  color: var(--tg-message-self-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .lite-tools-slot.inside-slot .lite-tools-time {
+  opacity: 1 !important;
+  color: white !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container.message-container--self .lite-tools-slot.outside-slot .lite-tools-time {
+  opacity: 0.8 !important;
+  color: var(--tg-message-self-font-color) !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container .mix-message__container:not(.mix-message__container--pic):has(.pic-element) .lite-tools-slot.embed-slot {
+  position: absolute !important;
+  bottom: 4px !important;
+  right: 4px !important;
+  font-size: 12px !important;
+  width: auto !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  text-align: center !important;
+  line-height: 14px !important;
+  border-radius: 4px !important;
+  visibility: hidden !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container .mix-message__container:not(.mix-message__container--pic):has(.pic-element) .lite-tools-slot.embed-slot .lite-tools-time {
+  text-align: center !important;
+  padding: 4px 6px !important;
+  color: white !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+  display: unset !important;
+  visibility: hidden !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container .mix-message__container:not(.mix-message__container--pic):has(.pic-element) .lite-tools-slot.embed-slot .lite-tools-time:first-child {
+  margin-left: 0 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container .mix-message__container:not(.mix-message__container--pic):has(.pic-element) .lite-tools-slot.embed-slot .lite-tools-time::after {
+  content: unset !important;
+  visibility: unset !important;
+  position: unset !important;
+  display: unset !important;
+  width: unset !important;
+  text-align: unset !important;
+  font-size: unset !important;
+  line-height: unset !important;
+  bottom: unset !important;
+  right: unset !important;
+  opacity: unset !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container .mix-message__container:not(.mix-message__container--pic):has(.pic-element) .lite-tools-slot.embed-slot .lite-tools-recall {
+  padding: 4px 6px !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:hover .mix-message__container:not(.mix-message__container--pic):has(.pic-element) .lite-tools-slot.embed-slot {
+  visibility: visible !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:hover .mix-message__container:not(.mix-message__container--pic):has(.pic-element) .lite-tools-slot.embed-slot .lite-tools-time {
+  color: white !important;
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:hover .mix-message__container:not(.mix-message__container--pic):has(.pic-element) .lite-tools-slot.embed-slot .lite-tools-time::after {
+  content: unset !important;
+  visibility: unset !important;
+  position: unset !important;
+  display: unset !important;
+  width: unset !important;
+  text-align: unset !important;
+  font-size: unset !important;
+  line-height: unset !important;
+  bottom: unset !important;
+  right: unset !important;
+  opacity: unset !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:hover .mix-message__container:not(.mix-message__container--pic):has(.pic-element) .lite-tools-slot.embed-slot .lite-tools-recall:not(:last-child) {
+  padding-right: 0 !important;
+}
+body[data-enhancedqq-telegram=on] #app#app .message-container:not(.message-container--self) .mix-message__container:not(.mix-message__container--pic):has(.pic-element) .lite-tools-slot.embed-slot .lite-tools-time {
+  color: white !important;
+}

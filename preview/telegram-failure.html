@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>资源失败回退测试</title></head><body>
+  <div id="app"><div class="ml-list"><div class="ml-item" id="fixture"><div class="message-container"><div class="user-name">测试名称</div><div class="message-content__wrapper"><div class="msg-content-container container--others"><span class="text-normal">测试消息</span></div></div></div></div></div></div>
+  <button id="mutate">触发消息区变化</button><p id="status">等待</p>
+  <script type="module">
+    window.LiteLoader = { api: { config: { get: async () => ({ features: { telegramBubbles: { enabled: true } } }) } } };
+    window.EnhancedQQ = { onState() {}, getTelegramAssets: async () => { throw new Error("fixture unavailable"); } };
+    const { installTelegramBubbles } = await import("../src/renderer/telegram-bubbles.js");
+    const controller = installTelegramBubbles();
+    controller.ready.catch(() => { document.querySelector("#status").textContent = "资源加载失败"; });
+    document.querySelector("#mutate").onclick = () => { document.querySelector(".ml-list").append(document.createElement("span")); };
+  </script>
+</body></html>

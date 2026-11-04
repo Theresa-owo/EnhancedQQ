@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EnhancedQQ · 撤回标记预览</title>
+  <style>
+    body { --ll-on-glass-2:#cbbfa9; --ll-on-glass-rgb:232,221,199; --ll-acrylic:46,39,27; --ll-material-opacity:.9; --ll-shadow-rgb:0,0,0; margin:0; padding:28px; background:#3a3024; color:#e8ddc7; font:14px "Microsoft YaHei UI",sans-serif; }
+    .controls { display:flex; gap:8px; flex-wrap:wrap; }
+    button { color:inherit; border:1px solid #8a7a61; border-radius:8px; padding:7px 12px; background:#514333; cursor:pointer; }
+    .ml-list { max-width:640px; margin:35px auto; padding:25px; background:#4a3d2d; border-radius:12px; }
+    .message-container { display:flex; width:100%; margin:32px 0; }
+    .self .message-container { justify-content:flex-end; }
+    .msg-content-container { padding:12px 18px; border-radius:12px; background:#6a5b47; }
+    .self .msg-content-container { background:#766125; }
+  </style>
+</head>
+<body>
+  <div class="controls"><button id="other">模拟对方撤回</button><button id="own">模拟自己撤回</button><button id="toggle">切换显示自己的撤回</button><button id="enabled">切换防撤回总开关</button></div>
+  <div class="ml-list"><div class="ml-item" id="fixture-other"><div class="message-container"><div class="msg-content-container">对方的示例消息</div></div></div><div class="ml-item self" id="fixture-own"><div class="message-container"><div class="msg-content-container">自己的示例消息</div></div></div></div>
+  <script type="module">
+    import { installRecallBadges } from "../src/renderer/recall-badges.js";
+    const state = { enabled: true, showOwn: true, markers: [] };
+    let listener = () => {};
+    const api = { getState: async () => state, onState: callback => { listener = callback; } };
+    function update(id, self) { if (!state.markers.some(item => item.id === id)) state.markers.push({ id, self }); listener(state); }
+    document.querySelector("#other").onclick = () => update("fixture-other", false);
+    document.querySelector("#own").onclick = () => update("fixture-own", true);
+    document.querySelector("#toggle").onclick = () => { state.showOwn = !state.showOwn; listener(state); };
+    document.querySelector("#enabled").onclick = () => { state.enabled = !state.enabled; listener(state); };
+    installRecallBadges(api);
+  </script>
+</body>
+</html>

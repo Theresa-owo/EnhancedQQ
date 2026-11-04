@@ -1,0 +1,36 @@
+--- a/renderer/index.js
++++ b/renderer/index.js
+@@ -227,8 +227,12 @@
+ async function applyDynamicPalette() {
+     if (window.__liuliPaletteApplied) return;
+     window.__liuliPaletteApplied = true;
++    const revision = window.__enhancedqqPaletteRevision = (window.__enhancedqqPaletteRevision || 0) + 1;
+     let source = DEFAULT_SOURCE;
+-    try { source = await extractSource(); } catch (e) { source = DEFAULT_SOURCE; }
++    try {
++        const choice = await window.__enhancedqqPaletteSource?.();
++        source = /^#[0-9a-f]{6}$/i.test(choice) ? choice.toLowerCase() : await extractSource();
++    } catch (e) { try { source = await extractSource(); } catch (ignored) { source = DEFAULT_SOURCE; } }
+     const mcu = await import(ASSET_BASE + "mcu.js");
+     const isDark = llIsDark();
+     const roles = loadRoles();
+@@ -239,6 +243,7 @@
+         const theme = mcu.themeFromSourceColor(mcu.argbFromHex(source));
+         Object.assign(vars, roleVars(mcu, theme, isDark, roles));
+     } catch (e) {}
++    if (revision !== window.__enhancedqqPaletteRevision) return;
+     const body = document.body;
+     for (const k in vars) {
+         if (vars[k] === null) body.style.removeProperty(k);
+@@ -252,6 +257,11 @@
+     console.log("[liuli-dsh-theme] wallpaper source = " + source + " (brand " + vars["--ll-brand"] + ")");
+ }
+ 
++window.__enhancedqqRefreshLiuliPalette = function () {
++    window.__liuliPaletteApplied = false;
++    return applyDynamicPalette();
++};
++
+ /* ---------- 承载层：只这些允许挂玻璃 ---------- */
+ const GLASS = [
+     [".container-sidebar", "var(--ll-noise), rgba(var(--ll-acrylic), var(--ll-material-opacity))"],

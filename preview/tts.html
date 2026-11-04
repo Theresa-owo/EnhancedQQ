@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><title>EnhancedQQ · TTS 预览</title>
+<style>
+body { font: 15px sans-serif; background: #29313a; color: #fff; padding: 24px; }
+.chat-input-area { max-width: 600px; margin: auto; padding: 16px; border-radius: 14px; background: #3b4652; }
+.chat-func-bar__left { display: flex; gap: 8px; }
+.icon-item { padding: 8px; color: #eee; }
+.qq-msg-editor { min-height: 80px; padding: 12px; margin: 12px 0; background: #fff; color: #111; }
+.send-btn-wrap { padding: 8px 16px; }
+</style></head>
+<body><div id="app"><div class="aio vue-component"><div class="chat-input-area"><div class="chat-func-bar liuli-expanded"><div class="chat-func-bar__left"></div></div><div class="qq-msg-editor" contenteditable="true" aria-label="消息输入框">这是一条语音测试。</div><button class="send-btn-wrap" type="button">发送</button></div></div></div><button id="fixture-fail" type="button">模拟发送失败</button><p id="fixture-result" role="status">尚未发送</p>
+<script type="module">
+  let config = { features: { tts: { enabled: false, voice: "zh-CN-XiaoxiaoNeural" } } };
+  window.LiteLoader = { api: { config: { get: async () => config, set: async (_slug, value) => { config = value; return true; } } } };
+  let fail = false; document.querySelector("#fixture-fail").onclick = () => { fail = !fail; };
+  window.EnhancedQQ = { onState() {}, configChanged() {}, synthesizeSpeech: async () => new Uint8Array(await (await fetch("./tts-fixture.mp3")).arrayBuffer()),
+    sendTtsVoice: async (peer, pcm) => { if (fail) throw new Error("模拟发送失败"); document.querySelector("#fixture-result").textContent = `模拟发送语音：${peer.chatType}，PCM ${pcm.byteLength} 字节`; return "fixture"; } };
+  document.querySelector(".aio").__VUE__ = [{ proxy: { commonAioStore: { curAioData: { chatType: 2, peerUid: "fixture-group" } } } }];
+  const editor = document.querySelector(".qq-msg-editor");
+  const view = { state: { doc: { content: { size: 12 } }, tr: { delete: (from, to) => ({ from, to }) } }, dispatch: () => { editor.textContent = ""; } };
+  editor.__VUE__ = [{ proxy: { getEditor: () => ({ editor: { view, schemaInstance: {} } }) } }];
+  const { installTtsController } = await import("../src/renderer/tts.js"); installTtsController();
+</script></body></html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>EnhancedQQ · 输入框预览</title>
+<style>
+body { margin:0; padding:24px; font:14px sans-serif; background:#263039; color:#fff; }
+.fixture-controls { display:flex; gap:8px; }
+.aio { max-width:700px; height:340px; margin:20px auto; position:relative; background:#516b78; }
+.chat-input-area { position:absolute; bottom:0; left:0; right:0; height:44px; background:#292833; border-radius:16px; }
+.msg-input { height:44px; padding-left:80px; box-sizing:border-box; display:flex; align-items:center; }
+#liuli-input-overlay { position:fixed; display:none; gap:4px; }
+#liuli-input-overlay button { width:28px; height:28px; border:0; border-radius:50%; }
+.multi-toolbar { position:absolute; bottom:4px; left:80px; display:flex; gap:20px; list-style:none; }
+.multi-toolbar[hidden] { display:none; }
+</style></head>
+<body><div class="fixture-controls"><button id="multi">进入多选</button><button id="inside">切换工具栏位置</button><button id="replace">重建输入框</button></div>
+<div class="aio"><div class="chat-input-area"><div class="msg-input" contenteditable="true">输入文字</div></div><ul class="multi-toolbar" hidden><li>逐条转发</li><li>合并转发</li><li>删除</li></ul></div>
+<div id="liuli-input-overlay" style="display:none"><button id="liuli-func-toggle">+</button><button id="liuli-emoji-btn">☺</button></div>
+<script type="module">
+  const aio=document.querySelector(".aio"), toolbar=document.querySelector(".multi-toolbar");
+  document.querySelector("#multi").onclick=()=>{toolbar.hidden=!toolbar.hidden;};
+  document.querySelector("#inside").onclick=()=>{const area=document.querySelector(".chat-input-area"); if(area.contains(toolbar))aio.append(toolbar);else area.append(toolbar);};
+  document.querySelector("#replace").onclick=()=>{const area=document.querySelector(".chat-input-area"), clone=area.cloneNode(true); area.replaceWith(clone);};
+  setInterval(()=>{const overlay=document.querySelector("#liuli-input-overlay"); overlay.style.display="none";overlay.style.top="0px";},1500);
+  const { installLiuliComposerFix }=await import("../src/renderer/liuli-composer.js"); installLiuliComposerFix();
+</script></body></html>

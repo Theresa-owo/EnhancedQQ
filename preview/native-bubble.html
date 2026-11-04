@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>原生气泡开关联动预览</title></head>
+<body>
+  <div class="setting-main"><div class="setting-row"><span>聊天气泡</span><button role="switch" aria-checked="true">QQ 聊天气泡</button></div></div>
+  <button id="enable">开启 Telegram 气泡</button><button id="disable">关闭 Telegram 气泡</button>
+  <p id="status"></p>
+  <script type="module">
+    import { createNativeBubbleGuard } from "../src/renderer/native-bubble.js";
+    const control = document.querySelector('[role="switch"]');
+    control.onclick = () => control.setAttribute("aria-checked", String(control.getAttribute("aria-checked") !== "true"));
+    const guard = createNativeBubbleGuard(document, status => { document.querySelector("#status").textContent = status; });
+    document.querySelector("#enable").onclick = () => guard.setEnabled(true);
+    document.querySelector("#disable").onclick = () => guard.setEnabled(false);
+  </script>
+</body></html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EnhancedQQ · 琉璃风格预览</title>
+  <style>
+    body {
+      --ll-on-glass: #e8ddc7; --ll-on-glass-2: #cbbfa9; --ll-on-glass-3: #a99e8a; --ll-on-glass-rgb: 232, 221, 199;
+      --ll-acrylic: 46, 39, 27; --ll-material-opacity: .9; --ll-material-blur: blur(18px) saturate(1.6);
+      --ll-primary-container: #695000; --ll-on-primary-container: #ffdf8d; --ll-brand: #e8c46c;
+      --ll-brand-rgb: 232, 196, 108; --ll-tint-rgb: 255, 255, 255; --ll-shadow-rgb: 0, 0, 0;
+      margin: 0; padding: 24px; color: var(--ll-on-glass); font-family: "MiSans", "Microsoft YaHei UI", system-ui, sans-serif;
+      background: linear-gradient(115deg, #2f281e, #403020 58%, #252f2b);
+    }
+    body[data-light="true"] {
+      --ll-on-glass: #29251e; --ll-on-glass-2: #514a3d; --ll-on-glass-3: #6b6254;
+      --ll-acrylic: 232, 224, 205; --ll-primary-container: #ffdf8d; --ll-on-primary-container: #251a00;
+      --ll-brand: #765900; --ll-brand-rgb: 118, 89, 0; --ll-tint-rgb: 255, 255, 255;
+      background: linear-gradient(115deg, #e4dbca, #f3e8d6 58%, #d8e3d8);
+    }
+    .preview-tools { max-width: 680px; margin: 0 auto 18px; }
+    .preview-tools button { padding: 6px 12px; border: 1px solid currentColor; border-radius: 8px; color: inherit; background: transparent; cursor: pointer; }
+    .frame { max-width: 680px; min-height: 460px; margin: 0 auto; padding: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="preview-tools"><button type="button" id="preview-theme">切换预览明暗</button></div>
+  <main class="frame" id="preview"></main>
+  <script type="module">
+    window.LiteLoader = { versions: { liteloader: "1.4.1", qqnt: "9.9.37-54395" }, plugins: { enhancedqq: { manifest: { version: "0.9.4" } } }, api: { config: {
+      async get() { return JSON.parse(localStorage.getItem("enhancedqq-preview-config") || "{}"); },
+      async set(_slug, value) { localStorage.setItem("enhancedqq-preview-config", JSON.stringify(value)); return true; }
+    } } };
+    window.EnhancedQQ = { onState() {}, configChanged() {}, synthesizeSpeech: async () => new Uint8Array(), sendTtsVoice: async () => "preview" };
+    const { onSettingWindowCreated } = await import("../src/renderer/index.js");
+    document.querySelector("#preview-theme").addEventListener("click", () => {
+      document.body.dataset.light = String(document.body.dataset.light !== "true");
+    });
+    onSettingWindowCreated(document.querySelector("#preview"));
+  </script>
+</body>
+</html>

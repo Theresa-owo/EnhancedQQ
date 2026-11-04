@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EnhancedQQ · Telegram 气泡预览</title>
+  <link rel="stylesheet" href="/liuli/qq-tokens.css"><link rel="stylesheet" href="/liuli/palette.css"><link rel="stylesheet" href="/liuli/liuli.css"><link rel="stylesheet" href="/liuli/typography.css"><link rel="stylesheet" href="/liuli/bubbles.css"><link rel="stylesheet" href="/liuli/layout.css"><link rel="stylesheet" href="/liuli/markdown.css">
+  <style>
+    body { margin:0; font:16px "Microsoft YaHei UI",sans-serif; background:#94b68b; --ll-brand-rgb:70,130,170; --ll-acrylic:40,48,58; --ll-material-opacity:.6; --ll-shadow-rgb:0,0,0; --ll-on-glass:#e3e8ed; --ll-on-glass-2:#bfc8d0; --ll-on-glass-3:#9ca6b0; --ll-on-primary-container:#1c2932; --avatar_size_2:40px; --img-max-width:200px; }
+    .fixture-controls { display:flex; gap:8px; padding:12px; position:relative; z-index:100; }
+    .fixture-controls button { padding:7px 10px; cursor:pointer; }
+    #app .ml-list { max-width:760px; margin:20px auto; padding:20px; background:#9fc09a; }
+    #app .ml-item { margin:8px 0; }
+    #app .message-container { display:flex; gap:12px; align-items:flex-end; }
+    #app .message-container--self { justify-content:flex-end; }
+    #app .avatar-span { width:40px; height:40px; flex:none; }
+    #app .avatar { width:40px; height:40px; border-radius:50%; background:#667e95; }
+    #app .message-content__wrapper { max-width:80%; }
+    #app .message-content { display:flex; }
+    #app .pic-element { display:block; width:160px; height:70px; background:#a9c6d4; }
+    #app .reply-element { padding:6px; }
+  </style>
+</head>
+<body data-liuli-dark="0" data-hash="#/main/message">
+  <div class="fixture-controls"><button id="toggle">切换 Telegram 气泡</button><button id="mode">切换日夜</button><button id="theme">切换 QQ 主题色</button><button id="split">主色和次色</button><button id="tone">切换对方色调</button><button id="unified">统一自定义气泡颜色</button><button id="custom">分别设置气泡颜色</button></div>
+  <div id="app"><div class="aio"><div class="group-panel"><div class="group-chat"><main class="chat-msg-area"><div class="ml-area"><div class="ml-root"><div class="ml-list">
+    <div class="ml-item" id="other-1"><div class="message"><div class="message-container message-container--others"><div class="avatar-span" aria-label="对方"><div class="avatar"></div></div><div class="user-name"><span class="text-ellipsis">对方</span></div><div class="message-content__wrapper"><div class="msg-content-container container--others"><div class="message-content"><span class="text-element"><span class="text-normal">这是一条消息</span></span></div></div></div></div></div></div>
+    <div class="ml-item" id="other-2"><div class="message"><div class="message-container message-container--others"><div class="avatar-span" aria-label="对方"><div class="avatar"></div></div><div class="user-name"><span class="text-ellipsis">对方</span></div><div class="message-content__wrapper"><div class="msg-content-container container--others reply-message__container"><div class="reply-element"><div class="reply-title">引用</div><div class="reply-content">原消息</div></div><div class="message-content"><span class="text-element"><span class="text-normal">回复消息</span></span></div></div></div></div></div></div>
+    <div class="ml-item" id="self-1"><div class="message"><div class="message-container message-container--self message-container--align-right"><div class="message-content__wrapper"><div class="msg-content-container container--self container--personalization"><div class="personalization-bubble"></div><div class="message-content"><span class="text-element"><span class="text-normal">owo</span></span></div></div></div><div class="avatar-span"><div class="avatar"></div></div></div></div></div>
+    <div class="ml-item" id="self-2"><div class="message"><div class="message-container message-container--self message-container--align-right"><div class="message-content__wrapper"><div class="msg-content-container container--self mix-message__container"><div class="message-content"><span class="text-element"><span class="text-normal">图片和文字</span></span><span class="pic-element"></span></div></div></div><div class="avatar-span"><div class="avatar"></div></div></div></div></div>
+  </div></div></div></main></div></div></div></div>
+  <script type="module">
+    let config = { features: { telegramBubbles: { enabled:true } } };
+    window.LiteLoader = { api: { config: { get: async () => config, set: async (_slug, value) => { config=value; return true; } } } };
+    window.EnhancedQQ = { onState() {}, getTelegramAssets: async () => ({
+      definitions: await (await fetch("../src/vendor/telegram-theme/setting.json")).json(),
+      styles: await Promise.all(["telegram-bubbles.generated.css", "telegram-bubbles.compat.css"].map(async name => (await fetch(`../src/renderer/${name}`)).text()))
+    }) };
+    const { installTelegramBubbles } = await import("../src/renderer/telegram-bubbles.js");
+    const { installThemeColor } = await import("../src/renderer/theme-color.js");
+    const mcu = await import("/liuli/mcu.js");
+    const themeController = installThemeColor(); await themeController.ready;
+    window.__enhancedqqRefreshLiuliPalette = async () => {
+      const seed = await window.__enhancedqqPaletteSource() || "#1d9bf0";
+      const scheme = mcu.themeFromSourceColor(mcu.argbFromHex(seed)).schemes[document.body.dataset.liuliDark === "1" ? "dark" : "light"];
+      document.body.style.setProperty("--ll-primary-container", mcu.hexFromArgb(scheme.primaryContainer));
+      document.body.style.setProperty("--ll-on-primary-container", mcu.hexFromArgb(scheme.onPrimaryContainer));
+      document.body.style.setProperty("--ll-secondary-container", mcu.hexFromArgb(scheme.secondaryContainer));
+      document.body.style.setProperty("--ll-on-secondary-container", mcu.hexFromArgb(scheme.onSecondaryContainer));
+      document.body.style.setProperty("--ll-brand", mcu.hexFromArgb(scheme.primary));
+      const theme = mcu.themeFromSourceColor(mcu.argbFromHex(seed));
+      document.body.style.setProperty("--ll-surface-highest", mcu.hexFromArgb(theme.palettes.neutral.tone(document.body.dataset.liuliDark === "1" ? 22 : 90)));
+      document.body.style.setProperty("--ll-on-glass", mcu.hexFromArgb(scheme.onSurface));
+    };
+    await window.__enhancedqqRefreshLiuliPalette();
+    const controller = installTelegramBubbles(); await controller.ready;
+    document.querySelector("#toggle").onclick = () => controller.setCurrent({ ...controller.settings, enabled: !controller.settings.enabled });
+    document.querySelector("#mode").onclick = () => { document.body.dataset.liuliDark = document.body.dataset.liuliDark === "1" ? "0" : "1"; window.__enhancedqqRefreshLiuliPalette(); };
+    document.querySelector("#theme").onclick = () => { config.features.themeColor = { source:"fixed", color:"#df7798" }; themeController.setCurrent(config.features.themeColor); controller.setCurrent({ ...controller.settings, colorMode:"theme" }); };
+    document.querySelector("#split").onclick = () => controller.setCurrent({ ...controller.settings, colorMode:"theme-split" });
+    document.querySelector("#tone").onclick = () => controller.setCurrent({ ...controller.settings, splitTone: controller.settings.splitTone === "neutral" ? "secondary" : "neutral" });
+    document.querySelector("#unified").onclick = () => controller.setCurrent({ ...controller.settings, colorMode:"unified", uniform:{ ...controller.settings.uniform, [document.body.dataset.liuliDark === "1" ? "dark" : "light"]:"#a05070" } });
+    document.querySelector("#custom").onclick = () => controller.setCurrent({ ...controller.settings, colorMode:"separate", light:{ ...controller.settings.light, "--tg-message-self-bg-color":"#f5b4bd", "--tg-message-others-bg-color":"#a5c9eb" } });
+  </script>
+</body>
+</html>

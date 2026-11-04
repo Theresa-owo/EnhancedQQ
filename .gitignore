@@ -1,0 +1,7 @@
+node_modules/
+data/
+docs/plans/
+.env
+.env.*
+*.log
+*.tmp

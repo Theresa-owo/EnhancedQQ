@@ -1,0 +1,103 @@
+diff --git a/renderer/index.js b/renderer/index.js
+index c778b5f..7ebaee7 100644
+--- a/renderer/index.js
++++ b/renderer/index.js
+@@ -2352,20 +2352,26 @@ function buildWallpaperControls(host) {
+ 
+ /* ════════════════════════════════════════════════════════════
+  * 明暗主题（DSH 的日/夜切换）
+- *   跟随 QQ / 亮色 / 暗色，存在 localStorage，所有窗口同步。
++ *   跟随 QQ / 跟随系统 / 亮色 / 暗色，和 EnhancedQQ 同步。
+  *   色板全部由 MCU 按明暗重新派生（同一套壁纸取色）。
+  * ════════════════════════════════════════════════════════════ */
+ const LL_MODE_KEY = "liuli-dsh-mode";
+ function llThemeMode() {
+     try {
++        const enhanced = window.__enhancedqqThemeMode?.();
++        if (["auto", "system", "light", "dark"].includes(enhanced)) return enhanced;
+         const v = localStorage.getItem(LL_MODE_KEY);
+-        return v === "light" || v === "dark" ? v : "auto";
++        return ["system", "light", "dark"].includes(v) ? v : "auto";
+     } catch (e) { return "auto"; }
+ }
+ function llIsDark() {
+     const m = llThemeMode();
+     if (m === "light") return false;
+     if (m === "dark") return true;
++    if (m === "system") {
++        const enhanced = window.__enhancedqqThemeIsDark?.();
++        return typeof enhanced === "boolean" ? enhanced : window.matchMedia("(prefers-color-scheme: dark)").matches;
++    }
+     return document.body.classList.contains("q-theme-tokens-dark")
+         || document.body.getAttribute("q-theme") === "dark";
+ }
+@@ -2396,6 +2402,15 @@ try {
+     });
+ } catch (e) {}
+ let llModeRefresh = null;
++window.__enhancedqqApplyLiuliMode = function () {
++    llApplyMode(false);
++    if (typeof llModeRefresh === "function") llModeRefresh();
++};
++try {
++    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
++        if (!window.__enhancedqqThemeMode && llThemeMode() === "system") llApplyMode(false);
++    });
++} catch (e) {}
+ try {
+     new MutationObserver(function () {
+         if (llThemeMode() !== "auto") return;
+@@ -2480,10 +2495,14 @@ async function llCheckModeAdvice(box) {
+     acts.className = "liuli-wp-actions";
+     const go = llBtn("切换为" + (dark ? "亮色" : "暗色"), "primary");
+     go.addEventListener("click", function (e) {
+-        try { localStorage.setItem(LL_MODE_KEY, target); } catch (err) {}
+-        llApplyMode(true, e.clientX, e.clientY);
+-        if (typeof llModeRefresh === "function") llModeRefresh();
+-        box.hidden = true;
++        if (window.__enhancedqqSetThemeMode) {
++            window.__enhancedqqSetThemeMode(target).then(function () { box.hidden = true; }).catch(function (err) { console.warn("[琉璃] 保存明暗模式失败", err); });
++        } else {
++            try { localStorage.setItem(LL_MODE_KEY, target); } catch (err) {}
++            llApplyMode(true, e.clientX, e.clientY);
++            if (typeof llModeRefresh === "function") llModeRefresh();
++            box.hidden = true;
++        }
+     });
+     const keep = llBtn("保持现状", "ghost");
+     keep.addEventListener("click", function () {
+@@ -2514,19 +2533,26 @@ function buildModeControls(host) {
+     row.appendChild(seg);
+     host.appendChild(row);
+     const btns = {};
+-    [["auto", "跟随 QQ"], ["light", "亮色"], ["dark", "暗色"]].forEach(function (p) {
++    [["auto", "跟随 QQ"], ["system", "跟随系统"], ["light", "亮色"], ["dark", "暗色"]].forEach(function (p) {
+         const b = document.createElement("button");
+         b.type = "button";
+         b.className = "liuli-seg__item";
+         b.textContent = p[1];
+         b.addEventListener("click", function (e) {
+-            try {
+-                if (p[0] === "auto") localStorage.removeItem(LL_MODE_KEY);
+-                else localStorage.setItem(LL_MODE_KEY, p[0]);
+-            } catch (err) {}
+-            llApplyMode(true, e.clientX, e.clientY);
+-            refresh();
+-            if (llModeAdviceRefresh) llModeAdviceRefresh();
++            if (window.__enhancedqqSetThemeMode) {
++                window.__enhancedqqSetThemeMode(p[0]).then(function () {
++                    refresh();
++                    if (llModeAdviceRefresh) llModeAdviceRefresh();
++                }).catch(function (err) { console.warn("[琉璃] 保存明暗模式失败", err); });
++            } else {
++                try {
++                    if (p[0] === "auto") localStorage.removeItem(LL_MODE_KEY);
++                    else localStorage.setItem(LL_MODE_KEY, p[0]);
++                } catch (err) {}
++                llApplyMode(true, e.clientX, e.clientY);
++                refresh();
++                if (llModeAdviceRefresh) llModeAdviceRefresh();
++            }
+         });
+         seg.appendChild(b);
+         btns[p[0]] = b;

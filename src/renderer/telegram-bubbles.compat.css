@@ -1,0 +1,148 @@
+/* Compatibility with Liuli 1.3.2 and QQNT 9.9.37. Scoped to the enabled port. */
+body[data-enhancedqq-telegram="on"] #app#app .msg-content-container:is(.container--self, .container--others) {
+  min-height: 0 !important;
+  gap: 0 !important;
+  justify-content: center !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app .msg-content-container:is(.container--self, .container--others)::before,
+body[data-enhancedqq-telegram="on"] #app#app .msg-content-container:is(.container--self, .container--others)::after {
+  content: none !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app .container--personalization .personalization-bubble { display: none !important; }
+body[data-enhancedqq-telegram="on"] #app#app .container--self .message-content .text-element,
+body[data-enhancedqq-telegram="on"] #app#app .container--self .message-content .text-normal {
+  font-size: var(--tg-message-self-font-size) !important;
+  line-height: calc(var(--tg-message-self-font-size) + 4px) !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app .container--others .message-content .text-element,
+body[data-enhancedqq-telegram="on"] #app#app .container--others .message-content .text-normal {
+  font-size: var(--tg-message-others-font-size) !important;
+  line-height: calc(var(--tg-message-others-font-size) + 4px) !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app .avatar-span[data-liuli-ty] { transform: none !important; }
+
+/* Private chats may have no username node. Keep the same avatar column for
+   every incoming row, including the hidden avatars in a consecutive group. */
+body[data-enhancedqq-telegram="on"] #app#app .message-container:not(.message-container--self):not(.message-container--align-right):not(:has(.msg-content-container.container--self)) {
+  grid-template-areas: "checkbox avatar . nickname nickname ." "checkbox avatar . content status ." "checkbox avatar . tips tips ." !important;
+  grid-template-columns: auto var(--tg-message-others-avatar-size, 40px) 14px minmax(0, auto) auto minmax(20%, 1fr) !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app .message-container:not(.message-container--self):not(.message-container--align-right):not(:has(.msg-content-container.container--self)) > .message-content__wrapper {
+  grid-area: content !important;
+  justify-self: start !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app :is(.others-head, .others-body, .others-tail) .message-container:not(.message-container--self):not(.message-container--align-right):not(:has(.msg-content-container.container--self)) {
+  min-height: 0 !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app :is(.others-single, .others-tail) .message-container:not(.message-container--self):not(.message-container--align-right):not(:has(.msg-content-container.container--self)) > .avatar-span {
+  grid-area: avatar !important;
+  display: flex !important;
+  position: static !important;
+  align-self: end !important;
+  justify-self: start !important;
+  align-items: flex-end !important;
+  width: var(--tg-message-others-avatar-size, 40px) !important;
+  height: var(--tg-message-others-avatar-size, 40px) !important;
+  transform: none !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app :is(.others-single, .others-tail) .message-container:not(.message-container--self):not(.message-container--align-right):not(:has(.msg-content-container.container--self)) > .avatar-span :is(.avatar, .message-container__avatar, .q-avatar) {
+  display: flex !important;
+  position: static !important;
+  width: var(--tg-message-others-avatar-size, 40px) !important;
+  height: var(--tg-message-others-avatar-size, 40px) !important;
+  transform: none !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app .message-container:not(.message-container--self):not(.message-container--align-right):not(:has(.msg-content-container.container--self)) .reaction-panel .avatar {
+  display: flex !important;
+}
+
+/* QQ sometimes omits --self/--align-right on media rows. Identify the sender
+   from the bubble as well, and keep the avatar in its own grid column. */
+body[data-enhancedqq-telegram="on"] #app#app .message-container:is(.message-container--self, .message-container--align-right, :has(.msg-content-container.container--self)) {
+  grid-template-areas: "checkbox . . nickname nickname avatar" "checkbox . status content . avatar" "checkbox . . tips tips avatar" !important;
+  grid-template-columns: auto minmax(20%, 1fr) 8px auto 0 0 !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app .message-container:is(.message-container--self, .message-container--align-right, :has(.msg-content-container.container--self)) > .message-content__wrapper {
+  grid-area: content !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-self-avatar="hidden"] #app#app .message-container:is(.message-container--self, .message-container--align-right, :has(.msg-content-container.container--self)) > :is(.avatar-span, .message-container__avatar, .avatar) {
+  display: none !important;
+}
+body[data-enhancedqq-telegram="on"] #app#app .message-container.message-container--align-right .reaction-panel .avatar {
+  display: flex !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-self-avatar="shown"] #app#app .message-container:is(.message-container--self, .message-container--align-right, :has(.msg-content-container.container--self)) {
+  grid-template-columns: auto minmax(20%, 1fr) 8px auto 14px var(--avatar_size_2, 32px) !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-self-avatar="shown"] #app#app .message-container:is(.message-container--self, .message-container--align-right, :has(.msg-content-container.container--self)) > :is(.avatar-span, .message-container__avatar, .avatar) {
+  grid-area: avatar !important;
+  display: flex !important;
+  position: static !important;
+  align-self: end !important;
+  justify-self: end !important;
+  width: var(--avatar_size_2, 32px) !important;
+  height: var(--avatar_size_2, 32px) !important;
+  transform: none !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-self-avatar="shown"] #app#app .message-container:is(.message-container--self, .message-container--align-right, :has(.msg-content-container.container--self)) > .avatar-span .avatar {
+  display: flex !important;
+  position: static !important;
+  transform: none !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-self-avatar="shown"] #app#app :is(.self-head, .self-body) .message-container:is(.message-container--self, .message-container--align-right, :has(.msg-content-container.container--self)) > :is(.avatar-span, .message-container__avatar, .avatar) {
+  display: none !important;
+}
+
+/* Below mode places the name after the group's last message. */
+body[data-enhancedqq-telegram="on"][data-enhancedqq-nickname="below"] #app#app .message-container:is(.message-container--others, :has(.msg-content-container.container--others)):has(> .user-name) {
+  grid-template-areas: "checkbox avatar . content status ." "checkbox avatar . tips tips ." "checkbox avatar . nickname nickname ." !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-nickname="below"] #app#app .message-container:is(.message-container--others, :has(.msg-content-container.container--others)) > .user-name {
+  grid-area: nickname !important;
+  justify-self: start !important;
+  margin-top: 2px !important;
+  margin-bottom: 0 !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-nickname="below"] #app#app .others-head .message-container:is(.message-container--others, :has(.msg-content-container.container--others)) > .user-name {
+  display: none !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-nickname="below"] #app#app .others-tail .message-container:is(.message-container--others, :has(.msg-content-container.container--others)) > .user-name {
+  display: flex !important;
+}
+
+/* Telegram-style name in the first bubble, before text, media or replies. */
+body[data-enhancedqq-telegram="on"][data-enhancedqq-nickname="inside"] #app#app .msg-content-container.container--others[data-enhancedqq-named="1"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 3px !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-nickname="inside"] #app#app .msg-content-container.container--others[data-enhancedqq-named="1"] > .user-name {
+  display: flex !important;
+  align-items: center !important;
+  position: static !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: var(--tg-message-others-username-font-color) !important;
+  font-size: var(--tg-message-others-username-font-size) !important;
+  line-height: 1.25 !important;
+  overflow: hidden !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-nickname="inside"] #app#app .msg-content-container.container--others[data-enhancedqq-named="1"] > .user-name .text-ellipsis {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  text-shadow: none !important;
+}
+body[data-enhancedqq-telegram="on"][data-enhancedqq-nickname="inside"] #app#app .msg-content-container.container--others[data-enhancedqq-named="1"]:is(.mix-message__container--pic, .mix-message__container--market-face) > .user-name {
+  padding: 4px 8px 2px !important;
+  border-radius: 10px 10px 0 0 !important;
+  background: var(--tg-message-others-bg-color) !important;
+}

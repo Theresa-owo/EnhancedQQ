@@ -1,0 +1,26 @@
+--- a/renderer/index.js
++++ b/renderer/index.js
+@@ -913,4 +913,5 @@
+ function moveSenderIntoBubble() {
++    if (document.body?.dataset.enhancedqqTelegram === "on") return;
+     try {
+         var containers = document.querySelectorAll(".message-container");
+         for (var i = 0; i < containers.length; i++) {
+@@ -940,4 +941,5 @@
+ function groupMessages() {
++    if (document.body?.dataset.enhancedqqTelegram === "on") return;
+     try {
+         var list = document.querySelectorAll(".message-container");
+         if (list.length === 0) return;
+@@ -988,4 +990,5 @@
+ function stickAvatars() {
++    if (document.body?.dataset.enhancedqqTelegram === "on") return;
+     try {
+         var vp = document.querySelector(".chat-msg-area__vlist") || document.querySelector(".chat-msg-area");
+         if (!vp) return;
+@@ -1510,4 +1513,5 @@
+ function markQuoteRoots() {
++    if (document.body?.dataset.enhancedqqTelegram === "on") return;
+     try {
+         // 全部先归零（只看消息区、只看还没标过的：以前每次 DOM 变动都扫全页的 [class*=…]，滚动时很重）
+         var all = document.querySelectorAll('.chat-msg-area :is([class*="reply"], [class*="quote"]):not([data-liuli-quote-root])');
